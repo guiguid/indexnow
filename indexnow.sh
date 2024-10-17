@@ -141,7 +141,7 @@ function do_sitemap() {
   keyUrl="$homepage/$KEY.txt"
   host="$(echo "$url" | cut -d/ -f3)"
   urlList="$TMP_DIR/$host.urls.txt"
-  curl -s "$sitemap" | awk '/<loc>/ { gsub(/<loc>/,""); gsub(/<\/loc>/,""); print $1}' > "$urlList"
+  curl -s "$sitemap" | awk '/<loc>/ { gsub(/<loc><!\[CDATA\[/,""); gsub(/\]\]><\/loc>/,""); print $1}' > "$urlList"
   urlCount=$(wc -l < "$urlList" | xargs)
   IO:success "Found $urlCount URLs"
   day=$(date "+%Y-%m-%d")
